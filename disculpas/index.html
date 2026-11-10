@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perdóname, mi amor 💙</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Pacifico&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --azul: #6f9cf0;
+      --azul-claro: #b9d0ff;
+      --azul-oscuro: #2c4a8c;
+      --rosa: #ff9ec7;
+      --rosa-claro: #ffe1ee;
+      --fondo-1: #dff0ff;
+      --fondo-2: #ffe6f2;
+      --texto: #2d3a5c;
+      --blanco: #ffffff;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body { overflow-x: hidden; }
+
+    body {
+      font-family: 'Baloo 2', system-ui, sans-serif;
+      color: var(--texto);
+      background: linear-gradient(160deg, var(--fondo-1) 0%, #eef4ff 45%, var(--fondo-2) 100%);
+      background-attachment: fixed;
+      min-height: 100vh;
+    }
+
+    /* ---------- Capa de alienígenas y corazones flotando ---------- */
+    #cielo {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .flotante {
+      position: absolute;
+      bottom: -120px;
+      animation: subir linear forwards;
+      opacity: .9;
+    }
+    .flotante svg, .flotante img { width: 100%; height: auto; display: block; }
+    @keyframes subir {
+      0%   { transform: translateY(0) translateX(0) rotate(-8deg); }
+      25%  { transform: translateY(-30vh) translateX(18px) rotate(8deg); }
+      50%  { transform: translateY(-60vh) translateX(-18px) rotate(-8deg); }
+      75%  { transform: translateY(-90vh) translateX(18px) rotate(8deg); }
+      100% { transform: translateY(-125vh) translateX(0) rotate(-8deg); }
+    }
+
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 32px 16px 80px;
+    }
+
+    /* ---------- Portada ---------- */
+    .portada { text-align: center; padding-top: 12px; }
+
+    .esquinas {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 8px;
+    }
+    .esquinas .mini { width: 70px; animation: saltito 2.4s ease-in-out infinite; }
+    .esquinas .mini:last-child { animation-delay: 1.2s; }
+
+    .heroe {
+      width: min(230px, 60vw);
+      margin: 0 auto;
+      animation: balanceo 3s ease-in-out infinite;
+      filter: drop-shadow(0 12px 18px rgba(44, 74, 140, .25));
+    }
+    .heroe svg { width: 100%; height: auto; display: block; }
+
+    @keyframes balanceo {
+      0%, 100% { transform: rotate(-4deg) translateY(0); }
+      50% { transform: rotate(4deg) translateY(-8px); }
+    }
+    @keyframes saltito {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+
+    h1 {
+      font-family: 'Pacifico', cursive;
+      font-weight: 400;
+      font-size: clamp(2.2rem, 8vw, 3.6rem);
+      color: var(--azul-oscuro);
+      line-height: 1.2;
+      margin-top: 8px;
+      text-shadow: 3px 3px 0 var(--rosa-claro);
+    }
+    .sub {
+      font-size: 1.2rem;
+      margin-top: 6px;
+      color: #5a6a94;
+    }
+
+    /* ---------- Tarjetas ---------- */
+    .tarjeta {
+      position: relative;
+      background: var(--blanco);
+      border-radius: 28px;
+      padding: 32px 26px 28px;
+      margin-top: 44px;
+      box-shadow: 0 14px 34px rgba(44, 74, 140, .14);
+      border: 3px dashed var(--azul-claro);
+    }
+    .tarjeta .asomado {
+      position: absolute;
+      width: 78px;
+      top: -52px;
+    }
+    .tarjeta .asomado.izq { left: 18px; transform: rotate(-12deg); }
+    .tarjeta .asomado.der { right: 18px; transform: rotate(12deg); }
+
+    .tarjeta h2 {
+      font-family: 'Pacifico', cursive;
+      font-weight: 400;
+      color: var(--azul-oscuro);
+      font-size: 1.8rem;
+      text-align: center;
+      margin-bottom: 14px;
+    }
+
+    .carta p {
+      font-size: 1.15rem;
+      line-height: 1.65;
+      margin-bottom: 14px;
+    }
+    .carta .firma {
+      text-align: right;
+      font-family: 'Pacifico', cursive;
+      color: var(--rosa);
+      font-size: 1.4rem;
+      margin: 6px 0 0;
+    }
+
+    /* ---------- Promesas ---------- */
+    .promesas {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 14px;
+    }
+    .promesa {
+      perspective: 800px;
+      height: 150px;
+      cursor: pointer;
+      border: none;
+      background: none;
+      font: inherit;
+      color: inherit;
+    }
+    .promesa .giro {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform .6s;
+      transform-style: preserve-3d;
+    }
+    .promesa.volteada .giro { transform: rotateY(180deg); }
+    .promesa .cara, .promesa .dorso {
+      position: absolute;
+      inset: 0;
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+    .promesa .cara {
+      background: linear-gradient(145deg, var(--azul-claro), var(--azul));
+      color: var(--blanco);
+      font-weight: 700;
+      font-size: 1rem;
+    }
+    .promesa .cara .mini { width: 64px; margin-bottom: 4px; }
+    .promesa .dorso {
+      background: var(--rosa-claro);
+      transform: rotateY(180deg);
+      font-size: 1.05rem;
+      font-weight: 600;
+      text-align: center;
+      line-height: 1.35;
+    }
+    .pista {
+      text-align: center;
+      color: #7d8bb0;
+      margin-top: 12px;
+      font-size: .95rem;
+    }
+
+    /* ---------- Pregunta ---------- */
+    .pregunta { text-align: center; }
+    .pregunta h2 { font-size: 2.2rem; }
+    .botones {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 22px;
+      flex-wrap: wrap;
+      min-height: 90px;
+      margin-top: 10px;
+    }
+    .btn {
+      font-family: 'Baloo 2', sans-serif;
+      font-weight: 800;
+      font-size: 1.35rem;
+      border: none;
+      border-radius: 999px;
+      padding: 12px 34px;
+      cursor: pointer;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn-si {
+      background: var(--azul);
+      color: var(--blanco);
+      box-shadow: 0 6px 0 var(--azul-oscuro);
+    }
+    .btn-si:hover { box-shadow: 0 3px 0 var(--azul-oscuro); }
+    .btn-no {
+      background: var(--rosa-claro);
+      color: #b0507a;
+      box-shadow: 0 6px 0 #f2b6cf;
+    }
+    .btn-no.huyendo {
+      position: fixed;
+      z-index: 50;
+      transition: left .25s, top .25s;
+    }
+    .mensaje-no {
+      min-height: 1.6em;
+      margin-top: 12px;
+      color: #b0507a;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+
+    /* ---------- Final feliz ---------- */
+    #final {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      background: rgba(223, 240, 255, .82);
+      backdrop-filter: blur(4px);
+    }
+    #final.visible { display: flex; animation: aparecer .5s ease-out; }
+    @keyframes aparecer { from { opacity: 0; } to { opacity: 1; } }
+    #final .caja {
+      background: var(--blanco);
+      border-radius: 32px;
+      padding: 28px 24px;
+      max-width: 440px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(44, 74, 140, .25);
+      border: 4px solid var(--rosa);
+      animation: rebote .7s cubic-bezier(.3, 1.6, .5, 1);
+    }
+    @keyframes rebote { from { transform: scale(.4); } to { transform: scale(1); } }
+    #final .heroe { width: 190px; animation: saltito 1s ease-in-out infinite; }
+    #final h2 {
+      font-family: 'Pacifico', cursive;
+      font-weight: 400;
+      color: var(--azul-oscuro);
+      font-size: 2rem;
+      margin: 8px 0;
+    }
+    #final p { font-size: 1.15rem; }
+
+    .chispa {
+      position: fixed;
+      z-index: 120;
+      pointer-events: none;
+      font-size: 26px;
+      animation: explotar 1.6s ease-out forwards;
+    }
+    @keyframes explotar {
+      0% { transform: translate(0, 0) scale(.4); opacity: 1; }
+      100% { transform: translate(var(--dx), var(--dy)) scale(1.2) rotate(var(--rot)); opacity: 0; }
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      color: #7d8bb0;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Dibujo original del alienígena azul (se reutiliza en toda la página) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="alien-cuerpo" viewBox="0 0 120 130">
+        <!-- antenas con corazoncitos -->
+        <path d="M46 38 Q40 20 32 12" stroke="#4f7fd6" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <path d="M74 38 Q80 20 88 12" stroke="#4f7fd6" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <path d="M32 16 C26 8 18 14 24 20 L32 26 L40 20 C46 14 38 8 32 16Z" fill="#ff9ec7"/>
+        <path d="M88 16 C82 8 74 14 80 20 L88 26 L96 20 C102 14 94 8 88 16Z" fill="#ff9ec7"/>
+        <!-- patitas -->
+        <ellipse cx="42" cy="118" rx="13" ry="8" fill="#4f7fd6"/>
+        <ellipse cx="78" cy="118" rx="13" ry="8" fill="#4f7fd6"/>
+        <!-- bracitos -->
+        <ellipse cx="18" cy="82" rx="9" ry="14" fill="#5b8ae0" transform="rotate(25 18 82)"/>
+        <ellipse cx="102" cy="82" rx="9" ry="14" fill="#5b8ae0" transform="rotate(-25 102 82)"/>
+        <!-- cuerpo -->
+        <ellipse cx="60" cy="76" rx="44" ry="42" fill="#6f9cf0"/>
+        <!-- pancita -->
+        <ellipse cx="60" cy="96" rx="24" ry="18" fill="#cfe0ff"/>
+        <!-- manchita en la cabeza -->
+        <ellipse cx="60" cy="44" rx="12" ry="6" fill="#8fb4f7"/>
+        <!-- ojos -->
+        <ellipse cx="44" cy="68" rx="10" ry="12" fill="#1f2a44"/>
+        <ellipse cx="76" cy="68" rx="10" ry="12" fill="#1f2a44"/>
+        <circle cx="47" cy="63" r="4" fill="#fff"/>
+        <circle cx="79" cy="63" r="4" fill="#fff"/>
+        <circle cx="41" cy="72" r="2" fill="#fff"/>
+        <circle cx="73" cy="72" r="2" fill="#fff"/>
+        <!-- cachetitos -->
+        <ellipse cx="30" cy="82" rx="7" ry="4" fill="#ff9ec7" opacity=".8"/>
+        <ellipse cx="90" cy="82" rx="7" ry="4" fill="#ff9ec7" opacity=".8"/>
+      </symbol>
+
+      <symbol id="alien-triste" viewBox="0 0 120 130">
+        <use href="#alien-cuerpo"/>
+        <path d="M52 88 Q60 81 68 88" stroke="#1f2a44" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M36 52 L50 56" stroke="#1f2a44" stroke-width="3" stroke-linecap="round"/>
+        <path d="M84 52 L70 56" stroke="#1f2a44" stroke-width="3" stroke-linecap="round"/>
+        <path d="M36 80 Q32 88 36 92 Q40 88 36 80Z" fill="#9fd3ff"/>
+      </symbol>
+
+      <symbol id="alien-feliz" viewBox="0 0 120 130">
+        <use href="#alien-cuerpo"/>
+        <path d="M48 84 Q60 98 72 84 Z" fill="#c2406f"/>
+        <path d="M54 90 Q60 95 66 90" fill="#ff9ec7"/>
+      </symbol>
+
+      <symbol id="alien-cartel" viewBox="0 0 160 200">
+        <use href="#alien-triste" x="20" y="0" width="120" height="130"/>
+        <rect x="18" y="128" width="124" height="58" rx="12" fill="#fff" stroke="#ff9ec7" stroke-width="4"/>
+        <text x="80" y="166" text-anchor="middle" font-family="Pacifico, cursive" font-size="26" fill="#2c4a8c">Perdón</text>
+        <ellipse cx="34" cy="128" rx="10" ry="8" fill="#5b8ae0"/>
+        <ellipse cx="126" cy="128" rx="10" ry="8" fill="#5b8ae0"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <div id="cielo" aria-hidden="true"></div>
+
+  <main>
+    <!-- Portada -->
+    <section class="portada">
+      <div class="esquinas" aria-hidden="true">
+        <svg class="mini" viewBox="0 0 120 130"><use href="#alien-triste"/></svg>
+        <svg class="mini" viewBox="0 0 120 130"><use href="#alien-triste"/></svg>
+      </div>
+      <div class="heroe">
+        <svg viewBox="0 0 160 200" role="img" aria-label="Un alienígena azul triste sosteniendo un cartel que dice perdón">
+          <use href="#alien-cartel"/>
+        </svg>
+      </div>
+      <h1>Perdóname, <span id="nombre-titulo">mi amor</span></h1>
+      <p class="sub">Tu alien favorito vino a pedirte perdón 🥺💙</p>
+    </section>
+
+    <!-- Carta -->
+    <section class="tarjeta carta">
+      <svg class="asomado izq" viewBox="0 0 120 130" aria-hidden="true"><use href="#alien-triste"/></svg>
+      <svg class="asomado der" viewBox="0 0 120 130" aria-hidden="true"><use href="#alien-triste"/></svg>
+      <h2>Una cartita para ti</h2>
+      <!-- ✏️ Cambia este texto por tus propias palabras -->
+      <p>Mi amor, sé que me equivoqué y que te hice sentir mal. No era mi intención, pero eso no lo hace menos importante, y lo siento muchísimo.</p>
+      <p>Eres la persona más bonita de mi universo (y de todos los planetas que existen 🪐). Me duele saber que te lastimé, porque lo único que quiero es verte sonreír.</p>
+      <p>Prometo escucharte más, ser más paciente y demostrarte todos los días lo mucho que te quiero. Sin ti me siento como un alien perdido en el espacio.</p>
+      <p class="firma">Con todo mi corazón, <span id="firma">tu novio</span> 💙</p>
+    </section>
+
+    <!-- Promesas -->
+    <section class="tarjeta">
+      <svg class="asomado der" viewBox="0 0 120 130" aria-hidden="true"><use href="#alien-feliz"/></svg>
+      <h2>Mis promesas</h2>
+      <div class="promesas" id="promesas"></div>
+      <p class="pista">Toca cada tarjeta para leerla ✨</p>
+    </section>
+
+    <!-- Pregunta -->
+    <section class="tarjeta pregunta">
+      <svg class="asomado izq" viewBox="0 0 120 130" aria-hidden="true"><use href="#alien-triste"/></svg>
+      <svg class="asomado der" viewBox="0 0 120 130" aria-hidden="true"><use href="#alien-triste"/></svg>
+      <h2>¿Me perdonas?</h2>
+      <div class="botones">
+        <button class="btn btn-si" id="btn-si">¡Sí! 💙</button>
+        <button class="btn btn-no" id="btn-no">No</button>
+      </div>
+      <p class="mensaje-no" id="mensaje-no" aria-live="polite"></p>
+    </section>
+
+    <footer>Hecho con mucho amor (y muchos aliens) 👽💙</footer>
+  </main>
+
+  <!-- Final feliz -->
+  <div id="final" role="dialog" aria-modal="true" aria-labelledby="final-titulo">
+    <div class="caja">
+      <div class="heroe">
+        <svg viewBox="0 0 120 130" role="img" aria-label="Alienígena azul feliz"><use href="#alien-feliz"/></svg>
+      </div>
+      <h2 id="final-titulo">¡Yaaay! 💙</h2>
+      <p>Gracias por perdonarme. Te prometo que voy a cuidarte muchísimo. ¡Te amo hasta la luna y de regreso! 🌙</p>
+      <button class="btn btn-si" id="btn-cerrar" style="margin-top:18px">Abrazo 🤗</button>
+    </div>
+  </div>
+
+  <script>
+    // =========================================================
+    // ✏️ PERSONALIZA AQUÍ
+    // =========================================================
+    const NOMBRE_DE_ELLA = "mi amor";   // ej: "Valeria"
+    const TU_NOMBRE      = "tu novio";  // ej: "Óscar"
+
+    // Si quieres usar tus propias imágenes/stickers, súbelas a la carpeta img/
+    // y escribe sus rutas aquí, ej: ["img/sticker1.png", "img/sticker2.gif"]
+    const STICKERS = [];
+
+    const PROMESAS = [
+      ["Escucharte", "Siempre te voy a escuchar de verdad, sin interrumpir 👂💙"],
+      ["Paciencia", "Voy a respirar profundo antes de hablar cuando esté molesto 🌊"],
+      ["Detalles", "Más notitas, flores y abrazos sorpresa 🌺"],
+      ["Citas", "Te debo una cita con tu comida favorita, invito yo 🍕"],
+      ["Risas", "Hacerte reír todos los días, aunque sea con chistes malos 😜"],
+      ["Para siempre", "Elegirte cada día, en este planeta y en todos los demás 🪐"],
+    ];
+
+    const MENSAJES_NO = [
+      "¿Segura? 🥺",
+      "Piénsalo otra vez… 💭",
+      "El alien se puso a llorar 😭",
+      "Ese botón está roto, prueba el otro 👉",
+      "¡No me atrapas! 👽",
+      "Por fis, por fis, por fis 🙏",
+      "Te traigo chocolates 🍫",
+    ];
+    // =========================================================
+
+    document.getElementById("nombre-titulo").textContent = NOMBRE_DE_ELLA;
+    document.getElementById("firma").textContent = TU_NOMBRE;
+
+    // ---------- Promesas que se voltean ----------
+    const contenedorPromesas = document.getElementById("promesas");
+    PROMESAS.forEach(([titulo, texto]) => {
+      const boton = document.createElement("button");
+      boton.className = "promesa";
+      boton.setAttribute("aria-label", "Promesa: " + titulo);
+      boton.innerHTML = `
+        <div class="giro">
+          <div class="cara">
+            <svg class="mini" viewBox="0 0 120 130" aria-hidden="true"><use href="#alien-feliz"/></svg>
+            ${titulo}
+          </div>
+          <div class="dorso">${texto}</div>
+        </div>`;
+      boton.addEventListener("click", () => boton.classList.toggle("volteada"));
+      contenedorPromesas.appendChild(boton);
+    });
+
+    // ---------- Aliens y corazones flotando por todas partes ----------
+    const cielo = document.getElementById("cielo");
+    const CARAS = ["alien-triste", "alien-feliz", "alien-cuerpo"];
+    const CORAZONES = ["💙", "🩵", "💗", "🌺", "✨", "💕"];
+
+    function soltarFlotante() {
+      const el = document.createElement("div");
+      el.className = "flotante";
+      const esAlien = Math.random() < 0.6;
+      let tam;
+      if (esAlien) {
+        tam = 40 + Math.random() * 50;
+        if (STICKERS.length) {
+          const img = document.createElement("img");
+          img.src = STICKERS[Math.floor(Math.random() * STICKERS.length)];
+          img.alt = "";
+          el.appendChild(img);
+        } else {
+          const cara = CARAS[Math.floor(Math.random() * CARAS.length)];
+          el.innerHTML = `<svg viewBox="0 0 120 130"><use href="#${cara}"/></svg>`;
+        }
+        el.style.width = tam + "px";
+      } else {
+        tam = 18 + Math.random() * 22;
+        el.textContent = CORAZONES[Math.floor(Math.random() * CORAZONES.length)];
+        el.style.fontSize = tam + "px";
+      }
+      el.style.left = Math.random() * 100 + "vw";
+      const duracion = 9 + Math.random() * 8;
+      el.style.animationDuration = duracion + "s";
+      cielo.appendChild(el);
+      setTimeout(() => el.remove(), duracion * 1000);
+    }
+
+    const sinMovimiento = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!sinMovimiento) {
+      for (let i = 0; i < 10; i++) setTimeout(soltarFlotante, i * 300);
+      setInterval(soltarFlotante, 650);
+    }
+
+    // ---------- Botón "No" que huye ----------
+    const btnNo = document.getElementById("btn-no");
+    const btnSi = document.getElementById("btn-si");
+    const mensajeNo = document.getElementById("mensaje-no");
+    let intentos = 0;
+    let escalaSi = 1;
+
+    function huir(evento) {
+      if (evento) evento.preventDefault();
+      intentos++;
+      mensajeNo.textContent = MENSAJES_NO[(intentos - 1) % MENSAJES_NO.length];
+
+      escalaSi = Math.min(escalaSi + 0.15, 2.2);
+      btnSi.style.transform = `scale(${escalaSi})`;
+
+      const rect = btnNo.getBoundingClientRect();
+      btnNo.classList.add("huyendo");
+      const margen = 16;
+      const maxX = window.innerWidth - rect.width - margen;
+      const maxY = window.innerHeight - rect.height - margen;
+      btnNo.style.left = Math.max(margen, Math.random() * maxX) + "px";
+      btnNo.style.top = Math.max(margen, Math.random() * maxY) + "px";
+
+      const escalaNo = Math.max(1 - intentos * 0.08, 0.5);
+      btnNo.style.transform = `scale(${escalaNo})`;
+    }
+
+    btnNo.addEventListener("mouseenter", huir);
+    btnNo.addEventListener("touchstart", huir, { passive: false });
+    btnNo.addEventListener("click", huir);
+
+    // ---------- Botón "Sí" ----------
+    const final = document.getElementById("final");
+
+    function explosionDeCorazones() {
+      const cx = window.innerWidth / 2;
+      const cy = window.innerHeight / 2;
+      for (let i = 0; i < 40; i++) {
+        const c = document.createElement("span");
+        c.className = "chispa";
+        c.textContent = CORAZONES[Math.floor(Math.random() * CORAZONES.length)];
+        const angulo = Math.random() * Math.PI * 2;
+        const distancia = 120 + Math.random() * 260;
+        c.style.left = cx + "px";
+        c.style.top = cy + "px";
+        c.style.setProperty("--dx", Math.cos(angulo) * distancia + "px");
+        c.style.setProperty("--dy", Math.sin(angulo) * distancia + "px");
+        c.style.setProperty("--rot", (Math.random() * 360 - 180) + "deg");
+        document.body.appendChild(c);
+        setTimeout(() => c.remove(), 1700);
+      }
+    }
+
+    btnSi.addEventListener("click", () => {
+      btnNo.style.display = "none";
+      mensajeNo.textContent = "";
+      final.classList.add("visible");
+      explosionDeCorazones();
+      setTimeout(explosionDeCorazones, 600);
+      for (let i = 0; i < 25; i++) setTimeout(soltarFlotante, i * 80);
+      document.getElementById("btn-cerrar").focus();
+    });
+
+    document.getElementById("btn-cerrar").addEventListener("click", () => {
+      explosionDeCorazones();
+      setTimeout(() => final.classList.remove("visible"), 400);
+    });
+  </script>
+</body>
+</html>

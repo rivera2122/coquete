@@ -1,0 +1,6 @@
+Aquí puedes poner tus propias imágenes o stickers (png, jpg, gif).
+Luego escribe sus nombres en la lista STICKERS al inicio del <script> de index.html, por ejemplo:
+
+  const STICKERS = ["img/sticker1.png", "img/sticker2.gif"];
+
+Si la lista está vacía, la página usa el alienígena azul dibujado en el propio código.
